@@ -266,11 +266,21 @@ import dayjs from "dayjs";
 				user:member.user,
 				club:member.club,
 				state:member.state,
-				role:member.role
+				role:member.role,
 			}).then(response=>{
 				if(response.status == 200){
 					this.memberData = response.data;
 					this.getData();
+					
+					if(member.state === '已加入'){
+						let userid = member.user.userid;
+						let clubid = member.club.clubid;
+						let mail_url = '/'+clubid+'/send/'+userid;
+						this.$axios.get(mail_url).then(response=>{
+							console.log('发送成功');
+						})
+					}
+
 				}
 			}).catch(function(error){
 				

@@ -37,13 +37,6 @@
 					
                 </el-form>
             </div>
-			<el-dialog title="裁剪图片" :visible.sync="dialogVisible" width="30%">
-			    <vue-cropper ref='cropper' :src="imgSrc" :ready="cropImage" :zoom="cropImage" :cropmove="cropImage" style="width:100%;height:300px;"></vue-cropper>
-			    <span slot="footer" class="dialog-footer">
-			        <el-button @click="cancelCrop">取 消</el-button>
-			        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-			    </span>
-			</el-dialog>
         </div>
     </div>
 </template>
@@ -71,55 +64,58 @@ export default {
     },
     methods: {
         onSubmit() {
-			
+			const _this = this;
 			const url = '/clubs';
-			this.$axios.get(url).then(response=>{
+			_this.$axios.get(url).then(response=>{
 				if(response.status == 200){
-					this.clubs = response.data;
-					if(this.clubs.some(item=>item.clubname === this.form.clubname)){
+					_this.clubs = response.data;
+					
+					if(_this.clubs.some(item=>item.clubname === _this.form.clubname)){
 						this.$message.error('该社团已存在，请再次尝试');
+					}
+					else{	
+						const date = (new Date()).getTime();
+						this.form.founder = localStorage.getItem('username');
+						console.log(this.form)
+						const id = localStorage.getItem('userid');
+						_this.$axios.post('/clubs',{
+							clubname:this.form.clubname,
+							introduce:this.form.introduce,
+							founder:this.form.founder,
+							createtime:date,
+							state:'未批准',
+							clubLogo:this.form.clubLogo
+						}).then(_response=>{
+							
+							if(_response.status === 200){
+								const clubid = _response.data.clubid;
+								console.log(clubid);
+								_this.$axios.post('/userclubs',{
+									user:{
+										userid:id
+									},
+									club:{
+										clubid:clubid
+									},
+									role:'社长',
+									state:'已加入'
+								}).then(__response=>{
+									console.log(__response);
+									if(__response.status == 200){
+										this.$message.success('创建成功');
+									}
+									else{
+										this.$message.error('社长创建失败');
+									}
+								})
+							}
+						})
 					}
 				}
 			}).catch(function(error){
 				
 			})
-			
-			this.clubs.sort(function(a,b){
-				return b.clubid-a.clubid;
-			})
-			const clubid = this.clubs[0].clubid+1;
-			console.log(clubid);
-			const _this = this;
-			const date = (new Date()).getTime();
-			const founder = localStorage.getItem('username');
-			const id = localStorage.getItem('userid');
-            _this.$axios.post('/clubs',{
-				clubid:clubid,
-				clubname:this.form.clubname,
-				introduce:this.form.introduce,
-				foubder:founder,
-				createtime:date,
-				state:'未批准',
-				clubLogo:this.form.clubLogo
-            }).then(_response=>{
-				if(_response.status == 200){
-					_this.$axios.post('/userclubs',{
-						user:{
-							userid:id
-						},
-						club:{
-							clubid:clubid
-						},
-						role:'社长',
-						state:'已加入'
-						
-					}).then(__response=>{
-						if(__response.status == 200){
-							this.$message.success('创建成功');
-						}
-					})
-				}
-			})
+
             
         },
 		uploadLogo(event){

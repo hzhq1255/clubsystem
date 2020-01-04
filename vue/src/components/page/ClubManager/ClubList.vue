@@ -71,8 +71,8 @@
 							<input id="file" class="file" type="file" accept="image/png" @change="uploadLogo($event)">
 						</div>
 					</el-form-item>
-				<el-form-item :disabled="true" v-if="edit.state == '未批准'" prop="clubname" label="名称">
-					<el-input v-model="edit.clubname" ></el-input>
+				<el-form-item  v-if="edit.state == '未批准'" prop="clubname" label="名称">
+					<el-input :disabled="true" v-model="edit.clubname" ></el-input>
 				</el-form-item>
 				<el-form-item prop="introduce" label="简介">
 					<el-input type="textarea" rows="12" v-model="edit.introduce" ></el-input>

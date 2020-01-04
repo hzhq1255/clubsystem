@@ -31,13 +31,13 @@
                 <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                 <el-table-column prop="clubid" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="logo" label="LOGO" align="center">
-                    <template slot-scope="scope">
-                        <el-image
-                            class="table-td-thumb"
-                            :src="scope.row.logo"
-                            :preview-src-list="[scope.row.logo]"
-                        ></el-image>
-                    </template>
+                     <template slot-scope="scope">
+                         <el-image
+                             class="table-td-thumb"
+                             :src="'data:image/png;base64,'+scope.row.clubLogo"
+                             :preview-src-list="['data:image/png;base64,'+scope.row.clubLogo]"
+                         ></el-image>
+                     </template>
                 </el-table-column> 
 				<el-table-column prop="clubname" label="社团名称"></el-table-column>
 				<el-table-column prop="introduce" label="社团简介"></el-table-column>

@@ -4,7 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
-    mode: 'hash',
+    mode: 'history',
 	routes: [
         {
             path: '/',
@@ -69,6 +69,12 @@ export default new Router({
 				{
 				    path: '/myclubnews',
 				    component: () => import(/* webpackChunkName: "donate" */ '../components/page/User/MyClubNews.vue'),
+				    meta: { title: '社团新闻' }
+				},
+				{
+				    path: '/clubnews',
+					name:'clubnews',
+				    component: () => import(/* webpackChunkName: "donate" */ '../components/page/ClubManager/ClubNews.vue'),
 				    meta: { title: '发布新闻' }
 				},
 				{
@@ -97,12 +103,6 @@ export default new Router({
 				    path: '/clublist',
 				    component: () => import(/* webpackChunkName: "donate" */ '../components/page/ClubManager/ClubList.vue'),
 				    meta: { title: '社长管理' }	
-				},
-				{
-				    path: '/clubnews',
-					name:'clubnews',
-				    component: () => import(/* webpackChunkName: "donate" */ '../components/page/ClubManager/ClubNews.vue'),
-				    meta: { title: '社团新闻' }	
 				},
 				{
 				    path: '/clubcreate',

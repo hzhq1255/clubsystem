@@ -13,22 +13,12 @@
 					    ></el-image>
 					</template>
 				</div>
-<!-- 	  			<div  align="center" style="padding-top: 0px;">
-	  				  <el-button icon="el-icon-lx-people" type="primary" class="button" @click="handleLook(item.clubid)">管理成员</el-button>
-					  <el-button icon="el-icon-menu" type="primary" class="button" @click="handleLook(item.clubid)">管理活动</el-button>
-					  <el-button icon="el-icon-menu" type="primary" class="button" @click="handleLook(item.clubid)">管理财务</el-button>
-	  			      <el-button icon="el-icon-lx-info" type="primary" class="button" style="background: #F56C6C;border:#F56C6C ;" @click="">解散社团</el-button>
-	  			</div> -->
 	  		</el-aside>
 	  		<div class="club-info">
 	  			<div class="club-name" >{{item.clubname}}</div>
 				<div style="margin-bottom: 10px;" >
 					<span>创建时间:{{item.createtime | date}}</span>
 				</div>
-<!-- 				<div style="margin-bottom: 5px;">
-					<el-button icon="el-icon-edit" type="primary" class="button"  @click="">修改内容</el-button>
-					<el-button icon="el-icon-edit" type="primary" class="button"  @click="">发布新闻</el-button>
-				</div> -->
 	  			<div style="margin-bottom: 10px;">社长:{{item.founder}}</div>
 
 	  			<div style="margin-bottom: 10px;">简介:{{item.introduce}}</div>
@@ -36,7 +26,7 @@
 	  		</el-container>
 	      </el-card>
 	    </el-col>
-		<el-col :span="12" v-for="(item, index) in clubs" :key="item.clubid" :offset="1" style="padding-top: 10px;">
+		<el-col :span="12" v-for="(item, index) in clubs" :key="index" :offset="1" style="padding-top: 10px;">
 			<el-card class="news-info" :body-style="{ padding: '5px' }" style="height: 780px;">
 				<el-button icon="el-icon-lx-add" type="primary" class="button"  @click="handleAdd()">发布新闻</el-button>
 				 <el-input v-model="newsname" placeholder="新闻名称" style="width: 60%;" @keyup.enter.native="handleSearch()"></el-input>
@@ -214,8 +204,12 @@ import dayjs from "dayjs";
 				let search = new Array()
 				list = response.data;
 				for(var i in list){
-					if(list[i].club.clubid == this.id){
+
+					if(list[i].club){
+
+					if(list[i].club.clubid == this.id ){
 						search.push(list[i]);
+					}
 					}
 				}
 				this.news = search;

@@ -423,6 +423,7 @@ import dayjs from "dayjs";
 			}).catch(function(error){
 				
 			}) 
+			this.add = {};
 		},
 		saveEdit(){
 			

@@ -100,9 +100,15 @@ import dayjs from "dayjs";
 			let url = '/'+eventid+'/state';
 			this.$axios.get(url)
 			.then(response=>{
-				if(response.status == 200){
-					this.tableData = response.data;
+				let list = new Array();
+				let result = new Array()
+				list = response.data;
+				for(var i in list){
+					if(list[i].state == '参加'){
+						result.push(list[i]);
+					}
 				}
+				this.tableData = result;
 			}).catch(function(error){
 				
 			})

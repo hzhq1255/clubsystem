@@ -109,7 +109,7 @@ export default {
 				    title: '我的信息',
 					subs:[
 						{
-							index: 'myclubinfo',
+							index: 'myclub',
 							title: '我的社团'
 						},
 						{
@@ -121,6 +121,11 @@ export default {
 							title: '我的评论'
 						}
 					]
+				},
+				{
+				    icon: 'el-icon-menu',
+				    index: 'myclubnews',
+				    title: '社团新闻'
 				},
 				{
 				    icon: 'el-icon-lx-sort',
@@ -169,10 +174,15 @@ export default {
 							title: '我的活动'
 						},
 						{
-							index: 'myclubnews',
+							index: 'mycomment',
 							title: '我的评论'
 						}
 					]
+				},
+				{
+				    icon: 'el-icon-menu',
+				    index: 'myclubnews',
+				    title: '社团新闻'
 				},
 				{
 				    icon: 'el-icon-menu',

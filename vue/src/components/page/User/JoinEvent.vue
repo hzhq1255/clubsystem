@@ -1,7 +1,7 @@
 <template>
   <div>
 	  <el-col :span="20" v-for="(item, index) in events" :key="index" :offset="2" style="padding: 10px;">
-	  	<el-card :body-style="{ padding: '5px' }" style="height: 400px;" v-if="item.role != '社长'">
+	  	<el-card :body-style="{ padding: '5px' }" style="height: 400px;" v-if="">
 	  		<el-container>
 	  		<el-aside>
 	  			<div align="center" style="">
@@ -15,7 +15,15 @@
 				</div>
 	  			<div  align="center" style="padding-top: 0px;padding-bottom: 0px;">
 	  				  <el-button :disabled="users.some(e=>e.event.eventid === item.eventid) == true || item.state === '未批准'"
-					   icon="el-icon-lx-add" type="primary" class="button" @click="handleLook(item.eventid)">加入活动</el-button>
+					   icon="el-icon-lx-add" type="primary" class="button" @click="handleAdd(item.eventid)">加入活动</el-button>
+					  <el-tag
+					  icon="el-icon-lx-info" 
+					  class="tag" 
+					  style="width: 70%;height: 30px ;color: #2178FC;"  
+					  v-if="item.state === '批准' && users.some(e=>e.event.eventid === item.eventid) === true"
+					  >
+					  <h3 >已申请</h3>
+					  </el-tag>
 					  <el-tag
 					  icon="el-icon-lx-info" 
 					  type="primary" 
@@ -82,28 +90,25 @@ import dayjs from "dayjs";
 			})
 			console.log(users);
 		},
-		handleLook(index){
-/* 			const userid = localStorage.getItem('userid');
-			const clubid = index;
+		handleAdd(index){
+			let id = localStorage.getItem('userid');
 			let url = '/userevents';
 			this.$axios.post(url,{
-				event:{
-					eventid:clubid
-				},
 				user:{
-					userid:userid
+					userid:id
 				},
-				state:"不参加"
+				event:{
+					eventid:index
+				},
+				state:"不参加",
+			}).then(user_response=>{
+						
+			     	if(user_response.status == 200){
+						this.$message.success("加入成功请等待审核");
+						this.getData();
+					}
 			})
-			.then(response=>{
-				if(response.status == 200){
-					this.$message.success("加入成功请等待活动主办方审核");
-					this.getData();
-				}
-			}).catch(function(error){
-				
-			}) */
-		}
+		},
 	}
 
   }

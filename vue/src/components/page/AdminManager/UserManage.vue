@@ -20,7 +20,7 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column prop="userid" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="userid" label="ID" width="55" align="center" sortable></el-table-column>
                 <el-table-column label="头像(查看大图)" align="center">
                      <template slot-scope="scope">
                          <el-image
@@ -33,7 +33,8 @@
 				<el-table-column prop="username" label="用户名"></el-table-column>				
 				<el-table-column prop="type" label="权限"></el-table-column>
                 <el-table-column prop="phone" label="电话"></el-table-column>
-                <el-table-column prop="regtime" label="注册时间">
+				<el-table-column prop="mail" label="邮箱"></el-table-column>
+                <el-table-column prop="regtime" label="注册时间" >
 					<template slot-scope="scope">
 						<span>{{scope.row.regtime | date}}</span>
 					</template>
@@ -172,6 +173,7 @@ export default {
 						phone:user.phone,
 						regtime:user.regtime,
 						userLogo:user.userLogo,
+						mail:user.mail,
 						type:user.type
 					}).then(response=>{
 						if(response.status == 200){
@@ -223,6 +225,7 @@ export default {
 				phone:user.phone,
 				regtime:user.regtime,
 				userLogo:user.userLogo,
+				mail:user.mail,
 				type:user.type
 			}).then(response=>{
 				if(response.status === 200){

@@ -18,6 +18,14 @@
 					   icon="el-icon-lx-people" type="primary" class="button" @click="handleAdd(item.clubid)">
 					   加入社团
 					   </el-button>
+					   <el-tag
+					   icon="el-icon-lx-info" 
+					   class="tag" 
+					   style="width: 70%;height: 30px ;color: #2178FC;"  
+					   v-if="item.state =='批准' && users.some(e=>(e.club.clubid===item.clubid )) "
+					   >
+					   <h3 >已申请</h3>
+					   </el-tag>
 					  <el-tag
 					  icon="el-icon-lx-info" 
 					  type="primary" 
@@ -79,12 +87,10 @@ import dayjs from "dayjs";
 			}) 
 			let id = localStorage.getItem('userid');
 			let user_url = '/'+id+'/myrolestate';
-			
 			_this.$axios.get(user_url).then(response=>{
-				_this.users = response.data;
+				_this.users = response.data;			
 				console.log(_this.$data.users)
 			})
-			console.log(_this);
 			console.log(_this.users);
 			
 

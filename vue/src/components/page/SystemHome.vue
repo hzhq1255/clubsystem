@@ -90,7 +90,7 @@
 					<el-row  class="mgb20">
 						  <el-timeline :reverse="reverse">
 						    <el-timeline-item  v-for="(item,index) in news" :key="item.newsid" :timestamp="item.time | date"  placement="top" >
-						      <el-card @click.native="handleComment(item.newsname)">
+						      <el-card @click.native="handleLook(item)">
 						        <h3>{{item.newsname}}</h3>
 								<p v-if="item.club !== null">{{item.club.clubname}}</p>
 								<p v-if="item.club === null">管理员</p>
@@ -115,6 +115,29 @@
                 </el-card>
             </el-col>
         </el-row> -->
+		<el-dialog  :visible.sync="lookVisible" width="30%" >
+			<el-form  :model="look"  label-width="70px">
+					<el-form-item  label="图片" >
+						<el-image
+						    class="table-td-thumb"
+						    :src="'data:image/png;base64,'+look.newsLogo"
+						    :preview-src-list="['data:image/png;base64,'+look.newsLogo]"
+							style="width: 200px;height: 200px;"
+							v-if="look.newsLogo != null"
+						></el-image>
+					</el-form-item>
+				<el-form-item prop="newsname" label="标题">
+					<h1 >{{look.newsname}}</h1>
+<!-- 					<el-input :disabled="true" v-model="look.newsname" ></el-input> -->
+				</el-form-item>
+				<el-form-item  prop="content" label="内容">
+					<p >{{look.content}}</p>
+					<!-- <textarea name="" id="" cols="30" rows="10">{{look.content}}</textarea> -->
+<!-- 					 <el-input :disabled="true" type="textarea" rows="12" v-model="look.content"></el-input> -->
+				</el-form-item>
+			</el-form>
+			
+		</el-dialog>
     </div>
 </template>
 
@@ -137,6 +160,8 @@ export default {
 			type: localStorage.getItem('type'),
             news: {},
 			newsname:'',
+			lookVisible:false,
+			look:{},
 	      ws: null,
 	      count: 0,
 	      userId: null, //当前用户ID
@@ -159,6 +184,10 @@ export default {
 	  mounted() {
 	    this.initWebSocket();
 	  }, 
+	  destroyed: function () {
+	       console.log("离开页面！");
+	      this.ws.close();
+	   },
     methods: {
 		getData(){
 			let url = '/news';
@@ -171,8 +200,16 @@ export default {
 			console.log(this.news);
 			console.log("lalla");
 		},
-		handleComment(row){
-			
+		handleLook(row){
+			console.log(row);
+			this.lookVisible = true;
+			let url = '/news/'+row.newsid;
+			this.$axios.get(url).then(response=>{
+				if(response.status === 200){
+					this.look = response.data[0];
+					console.log(this.look);
+				}
+			})
 		},
 		handleSearch(){
 			let url =  '/newsname/?newsname='+this.newsname;
@@ -223,8 +260,7 @@ export default {
 		      let _this = this;
 		      //判断页面有没有存在websocket连接
 		      if (window.WebSocket) {
-		        // 10.64.67.116 是本地IP地址 此处的端口号 要与后端配置的一致
-		        let ws = new WebSocket("ws://10.64.67.116:3000");
+		        let ws = new WebSocket("ws://49.234.235.35:3000");
 		        _this.ws = ws;
 		        ws.onopen = function(e) {
 		          console.log("服务器连接成功");

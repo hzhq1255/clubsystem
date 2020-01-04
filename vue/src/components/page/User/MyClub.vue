@@ -109,12 +109,20 @@ import dayjs from "dayjs";
 			let url = '/'+clubid+'/rolestate';
 			this.$axios.get(url)
 			.then(response=>{
-				if(response.status == 200){
-					this.tableData = response.data;
+				let list = new Array();
+				let result = new Array()
+				list = response.data;
+				for(var i in list){
+					if(list[i].state == '已加入'){
+						result.push(list[i]);
+					}
 				}
+				this.tableData = result;
 			}).catch(function(error){
 				
 			})
+			console.log(this.tableData);
+			this.$set(this.tableData);
 		},
 		handleExit(index){
 			this.$confirm('确定要退出吗？', '提示', {

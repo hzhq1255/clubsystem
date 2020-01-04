@@ -9,10 +9,11 @@ import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
-
+import './assets/css/fonts/iconfont.css';
+import './assets/css/iconfont.css';
 
 var axios = require('axios');
-axios.defaults.baseURL = 'http://localhost:8443/api'
+axios.defaults.baseURL = 'http://192.168.43.240:8443/api'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 /* var axios = require('axios');

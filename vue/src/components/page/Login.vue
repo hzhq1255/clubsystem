@@ -56,6 +56,9 @@
 				<el-form-item prop="phone" label="手机" >
 				    <el-input v-model="reg.phone" ></el-input>
 				</el-form-item>
+				<el-form-item prop="mail" label="邮箱" >
+				    <el-input v-model="reg.mail" ></el-input>
+				</el-form-item>
 				<el-form-item label="头像">
 					<el-image
 					    class="table-td-thumb"
@@ -81,8 +84,42 @@
 
 <script>
 export default {
-    data: function() {
+	
+    data: function() {	
+
+		var checkPhone = (rule, value, callback) => {
+		    const phoneReg = /^1[3|4|5|6|7|8][0-9]{9}$/
+		    if (!value) {
+		      return callback(new Error('电话号码不能为空'))
+		    }
+		    setTimeout(() => {
+		      
+		      if (!Number.isInteger(+value)) {
+		        callback(new Error('请输入数字值'))
+		      } else {
+		        if (phoneReg.test(value)) {
+		          callback()
+		        } else {
+		          callback(new Error('电话号码格式不正确'))
+		        }
+		      }
+		    }, 100)
+		  };
+		 var checkMail = (rule, value, callback) => {
+		         if (value === '') {
+		           callback(new Error('请正确填写邮箱'));
+		         } else {
+		           if (value !== '') { 
+		             var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+		             if(!reg.test(value)){
+		               callback(new Error('请输入有效的邮箱'));
+		             }
+		           }
+		           callback();
+		         }
+		       };
         return {
+
         options: [{
           id: '用户',
           type: '用户'
@@ -111,7 +148,8 @@ export default {
 				type: [{ required: true, message: '请选择用户类型', trigger: 'blur' }],
                 password1: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 				password2: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-				phone: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
+				mail:[{ validator: checkMail, message: '请输入注册邮箱', trigger: 'blur' }],
+				phone: [{ validator: checkPhone, message: '请输入手机号码', trigger: 'blur' }],
 				
             }
 	    };
@@ -141,6 +179,7 @@ export default {
 							phone:this.reg.phone,
 							type:'用户',
 							userLogo:this.reg.userLogo,
+							mail:this.reg.mail,
 							regtime:date
 						}).then(response=>{
 							if(response.status === 200){
@@ -174,16 +213,20 @@ export default {
 						
 					})
 					.then(successResponse => {
+						console.log(successResponse);
 						if(successResponse.data.code === 200){
 							let username_url = '/username/?username='+this.param.username;
+							console.log(this.param);
 							this.$axios.get(username_url)
 							.then(user_response=>{
+								
 								console.log(user_response.data[0]);
 								localStorage.setItem('userid',user_response.data[0].userid);
 								console.log(localStorage.getItem('userid',user_response.data.userid));
 								
 								localStorage.setItem('username',this.param.username)
 								localStorage.setItem('type',this.param.type);
+								console.log(localStorage);
 								this.$router.push('/');
 								this.$message.success('登录成功');
 							}).catch(failResponse => {
