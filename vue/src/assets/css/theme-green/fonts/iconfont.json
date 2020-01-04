@@ -1,0 +1,16 @@
+{
+  "id": "1558809",
+  "name": "ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-zan",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8820145",
+      "name": "赞",
+      "font_class": "zan",
+      "unicode": "e6c9",
+      "unicode_decimal": 59081
+    }
+  ]
+}

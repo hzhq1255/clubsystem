@@ -1,0 +1,30 @@
+{
+  "id": "1558809",
+  "name": "ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-zan",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7121278",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e756",
+      "unicode_decimal": 59222
+    },
+    {
+      "icon_id": "7121302",
+      "name": "输入",
+      "font_class": "shuru",
+      "unicode": "e757",
+      "unicode_decimal": 59223
+    },
+    {
+      "icon_id": "7121350",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e75a",
+      "unicode_decimal": 59226
+    }
+  ]
+}
